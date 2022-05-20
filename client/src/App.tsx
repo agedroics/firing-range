@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
+import { Toast } from 'primereact/toast'
 import HitService from './HitService'
 import { Hit } from './Hit'
 import Table from './Table'
@@ -7,6 +8,7 @@ import Target from './Target'
 
 function App() {
   const [hits, setHits] = useState([] as Hit[])
+  const toast = useRef<Toast>(null)
 
   useEffect(() => {
     const client = HitService.subscribeToHits((hit) =>
@@ -16,6 +18,16 @@ function App() {
       client.deactivate()
     }
   }, [])
+
+  function doEmergencyStop() {
+    HitService.doEmergencyStop().then(() =>
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Emergency stop executed',
+      })
+    )
+  }
 
   return (
     <div className="grid">
@@ -28,7 +40,7 @@ function App() {
             <Button
               className="w-full"
               label="Emergency stop"
-              onClick={HitService.doEmergencyStop}
+              onClick={doEmergencyStop}
             />
           </div>
           <div className="col-12">
@@ -36,6 +48,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Toast ref={toast} />
     </div>
   )
 }
