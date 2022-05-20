@@ -16,5 +16,4 @@ node {
 tasks.register<NpmTask>("build") {
     dependsOn(tasks.npmInstall)
     npmCommand.set(listOf("run", "build"))
-//    workingDir.set(file("${project.projectDir}/client"))
 }

@@ -1,14 +1,14 @@
-import React from 'react';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {Hit} from './Hit';
+import React from 'react'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { Hit } from './Hit'
 
 function InstantCellTemplate(hit: Hit) {
-  return new Date(hit.instant).toLocaleString();
+  return new Date(hit.instant).toLocaleString()
 }
 
 function Table(props: { hits: Hit[] }) {
-  const { hits } = props;
+  const { hits } = props
 
   return (
     <DataTable
@@ -31,7 +31,7 @@ function Table(props: { hits: Hit[] }) {
         sortable
       />
     </DataTable>
-  );
+  )
 }
 
-export default Table;
+export default Table

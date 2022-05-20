@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Button} from 'primereact/button';
-import HitService from './HitService';
-import {Hit} from './Hit';
-import Table from './Table';
-import Target from './Target';
+import React, { useEffect, useState } from 'react'
+import { Button } from 'primereact/button'
+import HitService from './HitService'
+import { Hit } from './Hit'
+import Table from './Table'
+import Target from './Target'
 
 function App() {
-  const [hits, setHits] = useState([] as Hit[]);
+  const [hits, setHits] = useState([] as Hit[])
 
-  useEffect(
-    () =>
-      HitService.subscribeToHits((hit) =>
-        setHits((oldHits) => [...oldHits, hit])
-      ),
-    []
-  );
+  useEffect(() => {
+    const client = HitService.subscribeToHits((hit) =>
+      setHits((oldHits) => [...oldHits, hit])
+    )
+    return () => {
+      client.deactivate()
+    }
+  }, [])
 
   return (
     <div className="grid">
@@ -36,7 +37,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
